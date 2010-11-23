@@ -23,7 +23,7 @@ object Tree {
 abstract class Node(file : File, indent: String = "") {
   
   val branch : String
-  val childNode : String
+  val childBranch : String
   
   def print {
     println(indent + branch + file.getName)
@@ -35,10 +35,10 @@ abstract class Node(file : File, indent: String = "") {
     try {
       val l = file.listFiles.zipWithIndex
       l.collect { 
-        case (f, i) if f.isDirectory & i == l.length - 1 => new LastDir(f, indent + childNode)
-        case (f, i) if f.isFile & i == l.length - 1 => new LastFile(f, indent + childNode)
-        case (f, i) if f.isDirectory => new NormalDir(f, indent + childNode)
-        case (f, i) if f.isFile => new NormalFile(f, indent + childNode)
+        case (f, i) if f.isDirectory & i == l.length - 1 => new LastDir(f, indent + childBranch)
+        case (f, i) if f.isFile & i == l.length - 1 => new LastFile(f, indent + childBranch)
+        case (f, i) if f.isDirectory => new NormalDir(f, indent + childBranch)
+        case (f, i) if f.isFile => new NormalFile(f, indent + childBranch)
       }
     } catch {
       case e: NullPointerException => println("Permission Denied. [%s]".format(file))
@@ -49,27 +49,27 @@ abstract class Node(file : File, indent: String = "") {
 
 class RootDir(file : File, indent : String = "") extends Node(file, indent) {
   val branch = ""
-  val childNode = ""
+  val childBranch = ""
 }
 
 class NormalDir(file : File, indent : String) extends Node(file, indent) {
   val branch = "|-- "
-  val childNode = "|   "
+  val childBranch = "|   "
 }
 
 class NormalFile(file : File, indent : String) extends Node(file, indent) {
   val branch = "|-- "
-  val childNode = ""
+  val childBranch = ""
 }
 
 class LastDir(file : File, indent : String) extends Node(file, indent) {
   val branch = "`-- "
-  val childNode = "    "
+  val childBranch = "    "
 }
 
 class LastFile(file : File, indent : String) extends Node(file, indent) {
   val branch = "`-- "
-  val childNode = ""
+  val childBranch = ""
 }
 
 
