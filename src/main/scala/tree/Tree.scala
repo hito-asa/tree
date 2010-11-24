@@ -20,7 +20,7 @@ object Tree {
   }
 }
 
-abstract class Node(file : File, indent: String = "") {
+abstract class Node(file : File, indent: String) {
   
   val branch : String
   val childBranch : String
